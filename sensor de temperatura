@@ -1,0 +1,65 @@
+// C++ code
+
+#define led1 2
+#define led2 7
+#define led3 8
+#define cag 3
+ 
+//definindo o pino que lera a said do TMP36
+const int sensorTemperatura = A0;
+// variavel que armazenara a temperatura medida
+int temperatura;
+
+// função que sera executada uma vez quando 
+// ligar ou resetar o arduino
+
+
+void setup()
+{
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(cag, OUTPUT);
+  
+  // Inicializa a comunicação serial
+  Serial.begin(9600);
+  
+}
+
+void loop()
+{
+ int valorAnalogico = analogRead(sensorTemperatura);
+ float tensao = valorAnalogico * (5.0 / 1023.0);
+ float temperatura = (tensao - 0.5) * 100.0;
+  
+ temperatura = int(analogRead(sensorTemperatura));
+ Serial.println(temperatura);
+ delay(500);
+  
+ // Condicionais para ligar os leds
+  
+ // Maior que 12°C e Menor que 36°C
+  if (temperatura >= 127 && temperatura <= 176){
+   digitalWrite(led2, LOW);
+   digitalWrite(led1, LOW);
+   digitalWrite(led3, HIGH);
+   digitalWrite(cag, HIGH);
+    
+  }
+  
+  //Maior que 36°C
+ else if (temperatura >= 177){
+  digitalWrite(led2, LOW);
+  digitalWrite(led1, HIGH);
+  digitalWrite(led3, LOW);
+  digitalWrite(cag, HIGH);
+
+    
+ //Menor que 12°C
+} else if (temperatura <= 126){ 
+  digitalWrite(led2, HIGH);
+  digitalWrite(led1, LOW);
+  digitalWrite(led3, LOW);
+  digitalWrite(cag, LOW);
+}   
+}
